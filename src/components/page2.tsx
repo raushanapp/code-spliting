@@ -17,7 +17,7 @@ const Page2: React.FC<Page2Props> = ({ onRouteChange }) => {
       </header>
       <button
         onClick={() => {
-          onRouteChange("page1");
+          onRouteChange("Page1");
         }}
       >
         Page1
@@ -25,7 +25,7 @@ const Page2: React.FC<Page2Props> = ({ onRouteChange }) => {
       <button className="disabled">Page2 </button>
       <button
         onClick={() => {
-          onRouteChange("page3");
+          onRouteChange("Page3");
         }}
       >
         Page3

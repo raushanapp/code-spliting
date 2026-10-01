@@ -19,14 +19,14 @@ const Page1: React.FC<Page1Props> = ({ onRouteChange }) => {
       <button className="disabled">Page1 </button>
       <button
         onClick={() => {
-          onRouteChange("page2");
+          onRouteChange("Page2");
         }}
       >
         Page2
       </button>
       <button
         onClick={() => {
-          onRouteChange("page3");
+          onRouteChange("Page3");
         }}
       >
         Page3
