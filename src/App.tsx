@@ -14,7 +14,7 @@ function App() {
 
   const onRouteChange = (newRoute: Route = "Page1") => {
     // No code spliting
-    setRoute(newRoute);
+    // setRoute(newRoute);
     // with code splitting
     if (newRoute === "Page1") {
       setRoute(newRoute);
