@@ -1,23 +1,30 @@
 import React from "react";
+import type { PageProps, Route } from "../App";
 
 interface AsyncComponentProps {
-  importComponent: () => Promise<{ default: React.ComponentType }>;
+  importComponent: () => Promise<{
+    default: React.ComponentType<PageProps>;
+  }>;
+  onRouteChange: (newRoute: Route) => void;
 }
 
 export const AsyncComponent: React.FC<AsyncComponentProps> = ({
   importComponent,
+  onRouteChange,
 }) => {
-  const [Component, setComponent] = React.useState<React.ComponentType | null>(
-    null,
-  );
+  const [Component, setComponent] =
+    React.useState<React.ComponentType<PageProps> | null>(null);
 
   React.useEffect(() => {
-    importComponent().then(({ default: ImportedComponent }) => {
+    const loadComponent = async () => {
+      const { default: ImportedComponent } = await importComponent();
       setComponent(() => ImportedComponent);
-    });
+    };
+
+    loadComponent();
   }, [importComponent]);
 
-  if (!Component) return null;
+  if (!Component) return <h1>Loading...</h1>;
 
-  return <Component />;
+  return <Component onRouteChange={onRouteChange} />;
 };
