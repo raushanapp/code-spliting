@@ -7,6 +7,7 @@ interface AsyncComponentProps {
   }>;
   onRouteChange: (newRoute: Route) => void;
 }
+//  async components using code splitting
 
 export const AsyncComponent: React.FC<AsyncComponentProps> = ({
   importComponent,

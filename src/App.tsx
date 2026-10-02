@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import Page1 from "./components/page1";
-import { AsyncComponent } from "./components/async-components";
+// import { AsyncComponent } from "./components/async-components";
 
 export type Route = "Page1" | "Page2" | "Page3";
 export type PageProps = {
   onRouteChange: (newRoute: Route) => void;
 };
+
+const Page2Lazy = lazy(() => import("./components/page2"));
+const Page3Lazy = lazy(() => import("./components/page3"));
 
 // function App() {
 //   const [route, setRoute] = useState<Route>("Page1");
@@ -44,6 +47,38 @@ export type PageProps = {
 
 // export default App;
 
+//  Asynchronous component loading using code splitting
+
+// function App() {
+//   const [route, setRoute] = useState<Route>("Page1");
+//   const onRouteChange = (newRoute: Route = "Page1") => {
+//     setRoute(newRoute);
+//   };
+
+//   return (
+//     <>
+//       <section id="center">
+//         {route === "Page1" && <Page1 onRouteChange={onRouteChange} />}
+//         {route === "Page2" && (
+//           <AsyncComponent
+//             importComponent={() => import("./components/page2")}
+//             onRouteChange={onRouteChange}
+//           />
+//         )}
+
+//         {route === "Page3" && (
+//           <AsyncComponent
+//             importComponent={() => import("./components/page3")}
+//             onRouteChange={onRouteChange}
+//           />
+//         )}
+//       </section>
+//     </>
+//   );
+// }
+
+//  use lazy loading for asynchronous components
+
 function App() {
   const [route, setRoute] = useState<Route>("Page1");
   const onRouteChange = (newRoute: Route = "Page1") => {
@@ -54,19 +89,10 @@ function App() {
     <>
       <section id="center">
         {route === "Page1" && <Page1 onRouteChange={onRouteChange} />}
-        {route === "Page2" && (
-          <AsyncComponent
-            importComponent={() => import("./components/page2")}
-            onRouteChange={onRouteChange}
-          />
-        )}
-
-        {route === "Page3" && (
-          <AsyncComponent
-            importComponent={() => import("./components/page3")}
-            onRouteChange={onRouteChange}
-          />
-        )}
+        <Suspense fallback={<h1>Loading...</h1>}>
+          {route === "Page2" && <Page2Lazy onRouteChange={onRouteChange} />}
+          {route === "Page3" && <Page3Lazy onRouteChange={onRouteChange} />}
+        </Suspense>
       </section>
     </>
   );
